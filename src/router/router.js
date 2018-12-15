@@ -7,7 +7,7 @@ export const loginRouter = {
     meta: {
         title: 'Login - 登录'
     },
-    component: resolve => { require(['@/views/login.vue'], resolve); }
+    component: resolve => { require(['@/views/login/login.vue'], resolve); }
 };
 
 export const locking = {

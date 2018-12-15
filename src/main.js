@@ -5,16 +5,20 @@ import store from './store'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import {appRouter} from './router/router';
+import API from '@/libs/config'
+import {post,get} from '@/libs/http'
 
 Vue.use(iView);
+Vue.prototype.GLOBAL = API;
+Vue.prototype.$post = post;
+Vue.prototype.$get = get;
 
-/* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   store,
   render: h => h(App),
-  created () {
+  created () { 
     let tagsList = [];
     appRouter.map((item) => {
         if (item.children.length <= 1) {

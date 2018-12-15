@@ -10,8 +10,7 @@
                 :open-names="openedSubmenuArr"
                 :menu-list="menuList">
                 <div slot="top" class="logo-con">
-                    <!-- <img v-show="!shrink"  src="../images/logo.jpg" key="max-logo" />
-                    <img v-show="shrink" src="../images/logo-min.jpg" key="min-logo" /> -->
+                     <span style="font-size: 18px;padding-left: 5px; display: inline-flex; color:white;" >话务系统</span>
                 </div>
             </shrinkable-menu>
         </div>

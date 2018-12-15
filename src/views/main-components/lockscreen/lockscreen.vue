@@ -28,14 +28,14 @@ export default {
             lockScreenBack.style.zIndex = 10000;
             lockScreenBack.style.boxShadow = '0 0 0 ' + this.lockScreenSize + 'px #667aa6 inset';
             this.showUnlock = true;
-            sessionStorage.getItem.set('last_page_name', this.$route.name); // 本地存储锁屏之前打开的页面以便解锁后打开
+            sessionStorage.setItem('last_page_name', this.$route.name); // 本地存储锁屏之前打开的页面以便解锁后打开
             setTimeout(() => {
                 lockScreenBack.style.transition = 'all 0s';
                 this.$router.push({
                     name: 'locking'
                 });
             }, 800);
-            sessionStorage.getItem.set('locking', '1');
+            sessionStorage.setItem('locking', '1');
         }
     },
     mounted () {
