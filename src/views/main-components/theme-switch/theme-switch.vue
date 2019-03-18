@@ -18,7 +18,6 @@
 </template>
 
 <script>
-    import * as config from '@/config/env';
     export default {
         name: 'themeSwitch',
         data() {

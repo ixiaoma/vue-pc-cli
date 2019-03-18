@@ -4,36 +4,15 @@ import {Message} from 'iview'
 import {router} from '../router/index'
 
 axios.defaults.timeout = 300000;
-axios.defaults.baseURL = '';
+axios.defaults.baseURL = '';//设置请求跟路径
 // http request 拦截器
 axios.interceptors.request.use(config => {   
+    config.headers = {
+        'Content-Type': 'application/json'
+    };
     let token = sessionStorage.getItem('cookieaccess_token');
-    if(config.url == _API.API_LOGIN_CODE||config.url == _API.API_TOKEN || config.url == _API.API_LOGIN|| config.url == _API.API_FORGET_PAEEWORD|| config.url == _API.API_FORGET_PAEEWORD2|| config.url == _API.API_FORGET_PAEEWORDOK|| config.url == _API.API_LOGOUT){
-        config.headers = {
-            'Content-Type': 'application/json'
-        };
-    }else if(config.url == _API.API_OWN_SPACE||config.url == _API.API_EDIT_PAEEWORD ||config.url == _API.API_JOBPEOPLE_SAVE){
-        let old_token = sessionStorage.getItem('old_cookieaccess_token');
-        if(old_token){ 
-            config.headers = {
-                'Authorization': 'Bearer ' + old_token,
-                'Content-Type': 'application/json'
-            };
-        }else{
-            if (token) {
-                config.headers = {
-                    'Authorization': 'Bearer ' + token,
-                    'Content-Type': 'application/json'
-                };
-            }
-        }
-    }else{
-        if (token) {
-            config.headers = {
-                'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/json'
-            };
-        }
+    if (token) {
+        config.headers.Authorization = 'Bearer ' + token
     }
     config.url = config.url+'?random='+new Date().getTime()
     config.data = JSON.stringify(config.data);
@@ -54,7 +33,7 @@ axios.interceptors.response.use(
         return response;
     },
     error => {
-        if (error.response) {
+        if (error.response) {//http错误统一拦截处理
             Message.error(error.response.data.message)
         }
     }

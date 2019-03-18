@@ -1,5 +1,4 @@
-import {env,baseUrl} from '@/config/env'
-console.log(env,baseUrl)
+let API = ''
 export default{
-    
+    API
 }
