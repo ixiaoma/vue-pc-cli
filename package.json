@@ -33,6 +33,7 @@
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
+    "generate-asset-webpack-plugin": "^0.3.0",
     "html-webpack-plugin": "^2.30.1",
     "less": "~2.7.3",
     "less-loader": "^4.0.5",

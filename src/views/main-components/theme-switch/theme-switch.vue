@@ -126,7 +126,6 @@
         },
         created() {
             let path = './static/theme/';
-           
             let name =this.userId;
             if (localStorage.theme) {
                 let hasThisUser = JSON.parse(localStorage.theme).some(item => {
