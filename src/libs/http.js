@@ -6,8 +6,8 @@ import {router} from '../router/index'
 
 axios.defaults.timeout = 300000;
 if (process.env.NODE_ENV == 'development') {
-    axios.defaults.baseURL = 'http://localhost:8080'
-    Vue.prototype.baseURL = 'http://localhost:8080'//根路径
+    axios.defaults.baseURL = 'http://10.100.50.27:19101/'
+    Vue.prototype.baseURL = 'http://10.100.50.27:19101/'//根路径
     Vue.prototype.fileURL = 'http://file.ui-tech.cn/'//文件上传地址+文件下载地址
 }else if(process.env.NODE_ENV == 'production'){
     axios.get('serverconfig.json').then(res=>{
