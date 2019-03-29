@@ -5,36 +5,17 @@
     <div class="contacts">
         <Card>               
             <Button type="primary" @click="addClick()" class="addbutton">新建角色</Button>
-            <Row style="border:1px solid #efefef">      
-                <Col span='8'>
+            <div class='contact-main clearfix'>      
+                <div class='contact-left'>
                     <p v-for="(item,index) in roleData" :key="index" class='every-role'>
-                        <a class="role-name" :class="[item.isEnabled ? 'spanlink' : 'disableRole',{activeBtn:item.id == currentId}]" @click="roleClick(item.id,item.code,item.name,item.remark)" title="item.name">{{item.name}}</a>
-                        <a class="icon-btn"><i-Switch v-model="item.isEnabled" size="middle" @on-change="changeSwitchState(item.code,item.isEnabled)"></i-Switch></a>
+                        <a class="role-name" :class="[item.isEnabled ? 'spanlink' : 'disableRole',{activeBtn:item.id == currentId}]" @click="roleClick(item.id,item.code,item.name,item.remark)" :title="item.name">{{item.name}}</a>
+                        <a class="icon-btn"><i-Switch class='role-switch' v-model="item.isEnabled" @on-change="changeSwitchState(item.code,item.isEnabled)"></i-Switch></a>
                         <a class="icon-btn center-icon" title="编辑" @click="addClick(item.code)"><Icon type="ios-compose-outline"></Icon></a>
                         <a class="icon-btn" title="删除" @click="deleteCLick(item.code)"><Icon type="ios-trash-outline" ></Icon></a>
                     </p>
-                </Col>
-                <!-- <Col :md="6" :sm="6" id="userRole">
-                    <ul class="roleList">
-                        <li v-for="(item,index) in roleData" :key="index">
-                            <Col :md="14" :sm="14">
-                                <Button :class="[item.isEnabled ? 'spanlink' : 'disableRole',{activeBtn:item.id == currentId}]" @click="roleClick(item.id,item.code,item.name,item.remark)">{{item.name}}</Button>
-                            </Col>
-                            <Col :md="10" :sm="10" v-if='item.code != "ROLE_admin"'>
-                                <span class="iconBtn">
-                                    <i-Switch v-model="item.isEnabled" size="small" @on-change="changeSwitchState(item.code,item.isEnabled)"></i-Switch>
-                                </span>
-                                <Button class="iconBtn" type="text" title="编辑" @click="addClick(item.code)"><Icon type="ios-compose-outline"></Icon></Button>
-                                <Button class="iconBtn" type="text" title="删除" @click="deleteCLick(item.code)"><Icon type="ios-trash-outline" ></Icon></Button>
-                            </Col>
-                        </li>
-                    </ul>
-                </Col> -->
-                <Col :md="16" :sm="16" style="border-left:1px solid #efefef;"> 
-                    <Col :md="24" :sm="24" style="padding:15px">
-                        <p>{{roleName + '      描述:      ' + roleDescribe}}</p>
-                    </Col>                  
-                    <Col :md="24" :sm="24" style="padding:15px">
+                </div>
+                <div class='contact-right'> 
+                    <h3>{{roleName + '      描述:      ' + roleDescribe}}</h3>  
                     <Tabs v-model="currentTab" @on-click="tabclick">
                         <TabPane label="菜单配置" name="name1">
                             <Row>
@@ -55,10 +36,9 @@
                             :titles='["用户源","已选用户"]'
                             @on-change="userChange"></Transfer>
                         </TabPane>    
-                    </Tabs>                     
-                    </Col>                                                        
-                </Col>
-            </Row>
+                    </Tabs>                                                         
+                </div>
+            </div>
         </Card>
         <Modal v-model="delmodal" width="360">
             <p slot="header" style="color:#f60;text-align:center">
@@ -79,7 +59,7 @@
                         <Input size="small" ref="roleName" v-model.trim="name"></Input>
                     </FormItem>
                     <FormItem label="角色描述">
-                        <textarea size="small" ref="roleDescribe" class="textarea" v-model="remark"></textarea>
+                        <Input v-model="remark" type="textarea" :rows="3"></Input>
                     </FormItem>
                 </Form>
                 <div slot="footer">
