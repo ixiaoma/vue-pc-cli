@@ -1,3 +1,8 @@
+//登录
+let API_LOGIN =  "auth/login"
+//退出登录
+let API_LOGIN_OUT = 'auth/logout'
+
 //业务报表字段配置下的字段列表
 let API_FIELD_LIST = 'role/field_set/list'
 //业务报表字段配置保存
@@ -10,6 +15,8 @@ let API_DATA_SAVE = 'role/data_set/save'
 let API_ROLE_USER_LIST = 'user/role/page/0/10000'
 //用户列表
 let API_USER_LIST = 'user/page'
+//用户列表
+let API_USER_ALL_LIST = 'user/all_list'
 //用户新增
 let API_USER_ADD= 'user/insert'
 //用户编辑
@@ -54,7 +61,11 @@ let API_ROLE_MENU_INSERT = 'role/menu/insert'
 let API_ROLE_MENU_UPDATE = 'role/menu/updateByMenu'
 //删除菜单节点
 let API_ROLE_MENU_DELETE = 'role/menu/delete'
+//组织树
+let API_ACCOUNT_DEPTTREE = 'dept/depttree';
 export default{
+    API_LOGIN,
+    API_LOGIN_OUT,
     API_FIELD_LIST,
     API_FIELD_SAVE,
     API_DATA_LIST,
@@ -82,6 +93,7 @@ export default{
     API_ROLE_MENU_DETAIL,
     API_ROLE_MENU_INSERT,
     API_ROLE_MENU_UPDATE,
-    API_ROLE_MENU_DELETE
-
+    API_ROLE_MENU_DELETE,
+    API_ACCOUNT_DEPTTREE,
+    API_USER_ALL_LIST
 }

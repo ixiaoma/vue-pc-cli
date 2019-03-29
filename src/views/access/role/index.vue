@@ -6,7 +6,15 @@
         <Card>               
             <Button type="primary" @click="addClick()" class="addbutton">新建角色</Button>
             <Row style="border:1px solid #efefef">      
-                <Col :md="6" :sm="6" id="userRole">
+                <Col span='8'>
+                    <p v-for="(item,index) in roleData" :key="index" class='every-role'>
+                        <a class="role-name" :class="[item.isEnabled ? 'spanlink' : 'disableRole',{activeBtn:item.id == currentId}]" @click="roleClick(item.id,item.code,item.name,item.remark)" title="item.name">{{item.name}}</a>
+                        <a class="icon-btn"><i-Switch v-model="item.isEnabled" size="middle" @on-change="changeSwitchState(item.code,item.isEnabled)"></i-Switch></a>
+                        <a class="icon-btn center-icon" title="编辑" @click="addClick(item.code)"><Icon type="ios-compose-outline"></Icon></a>
+                        <a class="icon-btn" title="删除" @click="deleteCLick(item.code)"><Icon type="ios-trash-outline" ></Icon></a>
+                    </p>
+                </Col>
+                <!-- <Col :md="6" :sm="6" id="userRole">
                     <ul class="roleList">
                         <li v-for="(item,index) in roleData" :key="index">
                             <Col :md="14" :sm="14">
@@ -21,8 +29,8 @@
                             </Col>
                         </li>
                     </ul>
-                </Col>
-                <Col :md="18" :sm="18" style="border-left:1px solid #efefef;"> 
+                </Col> -->
+                <Col :md="16" :sm="16" style="border-left:1px solid #efefef;"> 
                     <Col :md="24" :sm="24" style="padding:15px">
                         <p>{{roleName + '      描述:      ' + roleDescribe}}</p>
                     </Col>                  
@@ -46,32 +54,7 @@
                             :list-style='{width:"270px",height:"530px"}'
                             :titles='["用户源","已选用户"]'
                             @on-change="userChange"></Transfer>
-                        </TabPane> 
-                        <TabPane label="业务报表" name="name3">
-                            <Transfer
-                            :data="reportData"
-                            :target-keys="reportSaveData"
-                            filterable
-                            :list-style='{width:"270px",height:"530px"}'
-                            :titles='["报表","已选报表"]'
-                            @on-change="reportChange"></Transfer>
-                        </TabPane>     
-                        <TabPane label="业务报表字段配置" name="name4">
-                            <Table size="small" :data="roleReportData" :columns="reportColumns" :show-header="false"></Table>
-                        </TabPane> 
-                        <TabPane label="数据配置" name="name5">
-                            <Row style="margin-bottom:10px">
-                                <Col span="1" push="1" style="height: 32px;line-height: 32px;">
-                                    报表
-                                </Col>
-                                <Col span="6" push="1">
-                                    <Select filterable v-model="reportId" style="width:200px" @on-change="reportSelect">
-                                        <Option v-for="item in roleReportData" :value="item.reportId" :key="item.reportId">{{ item.reportName }}</Option>
-                                    </Select>
-                                </Col>
-                            </Row> 
-                            <Table size="small" :data="fieldData" :columns="fieldColumns" :show-header="false"></Table>
-                        </TabPane>        
+                        </TabPane>    
                     </Tabs>                     
                     </Col>                                                        
                 </Col>
@@ -102,32 +85,6 @@
                 <div slot="footer">
                 <Button   @click="modelState = false">取消</Button>
                 <Button type="primary"  @click="confirmClick">确定</Button>
-            </div>
-        </Modal>
-        <Modal
-            v-model="reportState"
-            :title="roleName+'-'+fieldName+'-字段使用'">
-            <Table size="small" height="500" ref="selection" :columns="tableColumns" :data="fieldEditData"></Table>
-            <div slot="footer">
-                <Button   @click="reportState = false">取消</Button>
-                <Button type="primary"  @click="reportConfim">保存</Button>
-            </div>
-        </Modal>
-        <Modal v-model="fieldState"
-            width="600px"
-            title='数据权限值'>
-            <div style="border-bottom: 1px solid #e9e9e9;padding-bottom:6px;margin-bottom:6px;">
-            <Checkbox
-                :indeterminate="indeterminate"
-                :value="checkAll"
-                @click.prevent.native="handleCheckAll">全选</Checkbox>
-            </div>
-            <CheckboxGroup v-model="selectField" @on-change="checkAllGroupChange">
-                <Checkbox  v-for="item in fieldList" :label="item.code" :key="item.code">{{item.name}}</Checkbox>
-            </CheckboxGroup>
-            <div slot="footer">
-                <Button   @click="fieldState = false">取消</Button>
-                <Button type="primary"  @click="fieldConfim">保存</Button>
             </div>
         </Modal>
     </div>

@@ -12,7 +12,7 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const GenerateAssetPlugin = require('generate-asset-webpack-plugin'); 
 const createServerConfig = function(compilation){
-  let configJson={baseUrl:"http://localhost:8080"};
+  let configJson={baseUrl:"http://10.100.50.27:26302/"};
   return JSON.stringify(configJson);
 }
 const env = require('../config/prod.env')

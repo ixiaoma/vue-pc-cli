@@ -31,48 +31,45 @@ export const otherRouter = {
 
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter = [
-    {
-        path: '/access',
-        icon: 'key',
-        name: 'access',
-        title: '权限管理',
-        component: Main,
-        children: [ {
-            path: '/user',
-            title: '用户管理',
-            name: 'user',
-            component: () =>
-              import ('@/views/access/user/user.vue')
-            },
-            {
-              path: '/role',
-              title: '角色管理',
-              name: 'role',
-              component: () =>
-                import ('@/views/access/role/index.vue')
-            },
-            {
-              path: '/systemMenus', title: '系统菜单', name: 'systemMenus', component: resolve => {
-              require([ '@/views/access/system-menus/index.vue' ], resolve);
-            }
+  {
+    path: '/access',
+    icon: 'key',
+    name: 'access',
+    title: '权限管理',
+    component: Main,
+    children: [
+      {
+        path: 'access_user', title: '组织架构', name: 'access_user', component: resolve => {
+          require([ '@/views/access/organization/index.vue' ], resolve);
+        }
+      },
+      {
+        path: 'access_role', title: '角色管理', name: 'access_role', component: resolve => {
+          require([ '@/views/access/role/index.vue' ], resolve);
+        }
+      },
+      {
+        path: 'access_menu', title: '菜单管理', name: 'access_menu', component: resolve => {
+          require([ '@/views/access/system-menus/index.vue' ], resolve);
+        }
+      }
+    ]
+  },
+  {
+    path: '/table',
+      icon: 'key',
+      name: 'table',
+      title: 'iview表格',
+      component: Main,
+      children: [ {
+          path: '/iview_table',
+          title: '用户管理',
+          name: 'iview_table',
+          component: () =>
+            import ('@/components/Table/index.vue')
           }
-        ]
-    },
-    {
-      path: '/table',
-        icon: 'key',
-        name: 'table',
-        title: 'iview表格',
-        component: Main,
-        children: [ {
-            path: '/iview_table',
-            title: '用户管理',
-            name: 'iview_table',
-            component: () =>
-              import ('@/components/Table/index.vue')
-            }
-        ]
-    }
+      ]
+  }
 ];
 
 // 所有上面定义的路由都要写在下面的routers里

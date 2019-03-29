@@ -7,6 +7,7 @@ import 'iview/dist/styles/iview.css'
 import {appRouter} from './router/router';
 import API from '@/libs/config'
 import {post,get} from '@/libs/http'
+import 'babel-polyfill'
 
 Vue.use(iView);
 Vue.prototype.GLOBAL = API;

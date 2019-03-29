@@ -17,66 +17,12 @@ export default {
             roleName:'',
             roleDescribe:'',
             editObj:{},
-            roleReportData:[],
-            reportData:[],
-            reportSaveData:[],
             userData:[],
             userSaveData:[],
             fieldName:'',
-            reportId:'',
             powerData:[],
             reportState:false,
             deletecode:'',
-            reportColumns:[
-                {
-                    title: '报表名称',
-                    key: 'reportName',
-                    width: 200
-                },
-                {
-                    title: '操作',
-                    key: 'reportclick',
-                    render: (h, params) => {
-                        return h('div', [
-                            h(
-                                'Button', {
-                                    props: {
-                                        type: 'ghost',
-                                        size: 'small',
-                                        icon: 'ios-compose-outline'
-                                    },
-                                    style: {
-                                        marginRight: '5px',
-                                        marginLeft: '5px',
-                                        border: 0,
-                                        fontSize: '16px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.fieldEditData = []
-                                            this.$post(this.GLOBAL.API_FIELD_LIST,{reportId:params.row.reportId,roleCode:this.currentCode}).then(res=>{
-                                                this.fieldEditData = res.data
-                                                let checkAll = true;
-                                                if(this.fieldEditData.length){
-                                                    this.fieldEditData.forEach(ele => {
-                                                        if (!ele.enabled) {
-                                                            checkAll = false;
-                                                        }
-                                                    });
-                                                }else{
-                                                    checkAll = false
-                                                }
-                                                this.enableAll = checkAll;
-                                            })
-                                            this.fieldName = params.row.reportName,
-                                            this.reportState = true
-                                        }
-                                    }
-                                })
-                        ]);
-                    }
-                }
-            ],
             fieldEditData:[],
             enableAll:false,
             tableColumns: [
@@ -134,54 +80,7 @@ export default {
                 }
             ],
             fieldState:false,
-            fieldData:[],
             dataSaveObj:{},
-            fieldColumns: [
-                {
-                    title: '字段名称',
-                    key: 'fieldAlias',
-                    width: 200
-                },
-                {
-                    title: '操作',
-                    key: 'operation',
-                    render: (h, params) => {
-                        return h('div', [
-                            h(
-                                'Button', {
-                                    props: {
-                                        type: 'ghost',
-                                        size: 'small',
-                                        icon: 'ios-compose-outline'
-                                    },
-                                    style: {
-                                        marginRight: '5px',
-                                        marginLeft: '5px',
-                                        border: 0,
-                                        fontSize: '16px'
-                                    },
-                                    on: {
-                                        click: () => {
-                                            this.$post(this.GLOBAL.API_DATA_LIST,{roleCode:this.currentCode,reportId:this.reportId,fieldCode:params.row.fieldCode}).then(res=>{
-                                                this.dataSaveObj = res.data
-                                                this.fieldList = res.data.enumData
-                                                let arr = []
-                                                res.data.enumData.forEach(ele=>{
-                                                    if(ele.enabled){
-                                                        arr.push(ele.code)
-                                                    }
-                                                })
-                                                this.selectField = arr
-                                                this.checkAllGroupChange(arr)
-                                                this.fieldState = true
-                                            })
-                                        }
-                                    }
-                                })
-                        ]);
-                    }
-                }
-            ],
             selectField:[],
             fieldList:[],
             indeterminate:true,
@@ -196,23 +95,19 @@ export default {
                 this.getMenuData()
             }else if(name == 'name2'){
                 this.getUserData()
-            }else if(name == 'name3'){
-                this.getReportData()
-            }else if(name == 'name4'){
-                this.getRoleReportList(1)
-            }else if(name == 'name5'){
-                this.getRoleReportList(1)
-                this.reportId = ''
             }
         },
         getUserData(){
-            this.$post(this.GLOBAL.API_USER_LIST,{pageNum:1,pageSize:1000000}).then(res=>{
-                if(res.data.records.length){
-                    let userData = JSON.stringify(res.data.records);
-                    userData = userData.replace(/code/g, 'label');
-                    userData = JSON.parse(userData);
-                    userData.forEach(res=>{
-                        res.key = res.label
+            this.$post(this.GLOBAL.API_USER_ALL_LIST).then(res=>{
+                if(res.data.length){
+                    let userData = []
+                    res.data.forEach(ele=>{
+                        let obj={
+                            label:ele.code,
+                            name:ele.nickname,
+                            key:ele.code
+                        }
+                        userData.push(obj)
                     })
                     this.userData = userData
                 }
@@ -224,16 +119,6 @@ export default {
                 })
                 this.userSaveData = arr
             })
-        },
-        getReportData(){//获取报表数据
-            this.$post(this.GLOBAL.API_ROLE_ALL_LIST,{dataType:'REPORT'}).then(res=>{
-                let reportData = JSON.stringify(res.data);
-                    reportData = reportData.replace(/name/g, 'label');
-                    reportData = reportData.replace(/id/g, 'key');
-                    reportData = JSON.parse(reportData);
-                this.reportData = reportData
-            })
-            this.getRoleReportList(0)
         },
         getMenuData(){//获取菜单数据
             this.$post(this.GLOBAL.API_TREE_ROLE,{code:this.currentCode}).then(res=>{
@@ -403,100 +288,9 @@ export default {
                     }
                 })
             }
-        },
-        getRoleReportList(flag){//角色下的报表
-            this.$post(this.GLOBAL.API_ROLE_REPORT_LIST,{roleCode:this.currentCode}).then(res=>{
-                if(flag){
-                    this.roleReportData = res.data
-                }else{
-                    let arr = []
-                    res.data.forEach(ele=>{
-                        arr.push(ele.reportId)
-                    })
-                    this.reportSaveData = arr
-                }
-            })
-        },
-        reportChange (targetKeys,direction,moveKeys) {//报表穿梭框
-            if(direction == "left"){
-                this.$post(this.GLOBAL.API_ROLE_DELETE_REPORT_LIST,{id:this.currentId,roleCode:this.currentCode,ids:moveKeys}).then(res=>{
-                    if(res.status == 200){
-                        this.reportSaveData = targetKeys
-                    }
-                })
-            }else{
-                this.$post(this.GLOBAL.API_ROLE_INSERT_REPORT_LIST,{id:this.currentId,roleCode:this.currentCode,ids:moveKeys}).then(res=>{
-                    if(res.status == 200){
-                        this.reportSaveData = targetKeys
-                    }
-                })
-            }
-        },
-        reportSelect(id){//数据配置
-            this.$post(this.GLOBAL.API_FIELD_TYPE_LIST,{reportId:id}).then(res=>{
-                if(res.status == 200){
-                    this.fieldData = res.data
-                }
-            })
-        },
-        handleCheckAll () {
-            if (this.indeterminate) {
-                this.checkAll = false;
-            } else {
-                this.checkAll = !this.checkAll;
-            }
-            this.indeterminate = false;
-            if (this.checkAll) {
-                let arr = []
-                this.fieldList.forEach(ele=>{
-                    arr.push(ele.code)
-                })
-                this.selectField = arr;
-            } else {
-                this.selectField = [];
-            }
-        },
-        checkAllGroupChange (data) {
-            if (data.length === this.fieldList.length) {
-                this.indeterminate = false;
-                this.checkAll = true;
-            } else if (data.length > 0) {
-                this.indeterminate = true;
-                this.checkAll = false;
-            } else {
-                this.indeterminate = false;
-                this.checkAll = false;
-            }
-        },
-        reportConfim(){//报表选字段弹框保存
-            this.$post(this.GLOBAL.API_FIELD_SAVE,this.fieldEditData).then(res=>{
-                if(res.status == 200){
-                    this.reportState = false
-                }
-            })
-        },
-        fieldConfim(){//数据配置字段弹窗保存
-            this.dataSaveObj.enumData.forEach(item=>{
-                let flag = false
-                this.selectField.forEach(ele=>{
-                    if(item.code == ele){
-                        flag = true
-                        item.enabled = true
-                    }
-                })
-                if(!flag && item.enabled){
-                    item.enabled = false
-                }
-            })
-            this.$post(this.GLOBAL.API_DATA_SAVE,this.dataSaveObj).then(res=>{
-                if(res.status == 200){
-                    this.fieldState = false
-                }
-            })
         }
     },
     created(){
         this.getRoleList()
-        
     }
 };

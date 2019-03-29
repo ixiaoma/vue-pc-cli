@@ -1,77 +1,28 @@
-<style lang="less">
-    @import './login.less';
+<style lang="less" scoped>
+  @import "./login.less";
 </style>
-
 <template>
-    <div class="login" @keydown.enter="handleSubmit">
-        <div class="login-con">
-            <Card :bordered="false">
-                <p slot="title">
-                    <Icon type="log-in"></Icon>
-                    欢迎登录
-                </p>
-                <div class="form-con">
-                    <Form ref="loginForm" :model="form" :rules="rules">
-                        <FormItem prop="userName">
-                            <Input v-model="form.userName" placeholder="请输入用户名">
-                                <span slot="prepend">
-                                    <Icon :size="16" type="person"></Icon>
-                                </span>
-                            </Input>
-                        </FormItem>
-                        <FormItem prop="password">
-                            <Input type="password" v-model="form.password" placeholder="请输入密码">
-                                <span slot="prepend">
-                                    <Icon :size="14" type="locked"></Icon>
-                                </span>
-                            </Input>
-                        </FormItem>
-                        <FormItem>
-                            <Button @click="handleSubmit" type="primary" long>登录</Button>
-                        </FormItem>
-                    </Form>
-                    <p class="login-tip">输入任意用户名和密码即可</p>
-                </div>
-            </Card>
-        </div>
+  <div class="login" ref="login" style="background:url('/static/login_bg.jpg') no-repeat;background-size:100% 100%"
+       @keyup.enter.native="handleSubmit()">
+    <div class="login-box">
+      <h1>{{ msg }}</h1>
+      <Form ref="loginForm" :model="formItem" :label-width="80" :rules="rules">
+        <FormItem prop="userName" label="账号:">
+          <Input v-model="formItem.userName" style="width:290px" autofocus ref="userName" size="large" placeholder="请输入账号"
+                 @keyup.enter.native="handleSubmit()"></Input>
+        </FormItem>
+        <FormItem prop="password" label="密码:">
+          <Input v-model.trim="formItem.password" style="width:290px" ref="pass" type="password" size="large" placeholder="请输入密码"
+                 @keyup.enter.native="handleSubmit()"></Input>
+        </FormItem>
+        <Button type="primary" long @click="handleSubmit" style="margin-left:80px;width:290px">
+          <span v-if="!loading2">登录</span>
+          <span v-else>登录中...</span>
+        </Button>
+      </Form>
     </div>
+  </div>
 </template>
 
-<script>
-export default {
-    data () {
-        return {
-            form: {
-                userName: 'iview_admin',
-                password: ''
-            },
-            rules: {
-                userName: [
-                    { required: true, message: '账号不能为空', trigger: 'blur' }
-                ],
-                password: [
-                    { required: true, message: '密码不能为空', trigger: 'blur' }
-                ]
-            }
-        };
-    },
-    methods: {
-        handleSubmit () {
-            this.$refs.loginForm.validate((valid) => {
-                if (valid) {
-                    sessionStorage.setItem('user', this.form.userName);
-                    // sessionStorage.setItem('password', this.form.password);
-                    this.$store.commit('setAvator', 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3448484253,3685836170&fm=27&gp=0.jpg');
-                    this.$router.push({
-                        name: 'home_index'
-                    });
-                }
-            });
-        }
-    }
-};
-</script>
+<script src='./login.js'></script>
 
-<style>
-
-</style>

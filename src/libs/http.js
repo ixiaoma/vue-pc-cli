@@ -6,8 +6,8 @@ import {router} from '../router/index'
 
 axios.defaults.timeout = 300000;
 if (process.env.NODE_ENV == 'development') {
-    axios.defaults.baseURL = 'http://10.100.50.27:19101/'
-    Vue.prototype.baseURL = 'http://10.100.50.27:19101/'//根路径
+    axios.defaults.baseURL = 'http://10.100.50.27:26302/'
+    Vue.prototype.baseURL = 'http://10.100.50.27:26302/'//根路径
     Vue.prototype.fileURL = 'http://file.ui-tech.cn/'//文件上传地址+文件下载地址
 }else if(process.env.NODE_ENV == 'production'){
     axios.get('serverconfig.json').then(res=>{
@@ -23,13 +23,16 @@ axios.interceptors.request.use(config => {
     config.headers = {
         'Content-Type': 'application/json'
     };
-    let token = sessionStorage.getItem('cookieaccess_token');
-    if (token) {
-        config.headers = {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json'
-        };
+    if(config.url != _API.API_LOGIN && config.url != _API.API_LOGIN_OUT){
+        let token = sessionStorage.getItem('cookieaccess_token');
+        if (token) {
+            config.headers = {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            };
+        }
     }
+    
     // config.url = config.url+'?random='+new Date().getTime()
     config.data = JSON.stringify(config.data);
     return config;
