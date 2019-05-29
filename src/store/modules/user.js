@@ -1,7 +1,9 @@
+import {router} from '../../router/index'
 const user = {
     state: {},
     mutations: {
-        logout (state, vm) {
+        logout (state) {
+            this.commit('clearAllTags')
             sessionStorage.removeItem('user');
             // sessionStorage.removeItem('password');
             // 恢复默认样式
@@ -16,6 +18,9 @@ const user = {
             if (theme) {
                 localStorage.theme = theme;
             }
+            router.push({
+                name: 'login'
+            })
         }
     }
 };
