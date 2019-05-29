@@ -125,11 +125,7 @@
                     });
                 } else if (name === 'loginout') {
                     // 退出登录
-                    this.$store.commit('logout', this);
-                    this.$store.commit('clearOpenedSubmenu');
-                    this.$router.push({
-                        name: 'login'
-                    });
+                    this.$store.commit('logout');
                 }
             },
             checkTag (name) {
