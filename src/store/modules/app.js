@@ -66,13 +66,6 @@ const app = {
                 state.openedSubmenuArr.push(name);
             }
         },
-        closePage (state, name) {
-            state.cachePage.forEach((item, index) => {
-                if (item === name) {
-                    state.cachePage.splice(index, 1);
-                }
-            });
-        },
         initCachepage (state) {
             if (sessionStorage.cachePage) {
                 state.cachePage = JSON.parse(sessionStorage.cachePage);
@@ -82,6 +75,11 @@ const app = {
             state.pageOpenedList.map((item, index) => {
                 if (item.name === name) {
                     state.pageOpenedList.splice(index, 1);
+                }
+            });
+            state.cachePage.forEach((item, index) => {
+                if (item === name) {
+                    state.cachePage.splice(index, 1);
                 }
             });
         },
@@ -99,6 +97,7 @@ const app = {
         clearAllTags (state) {
             state.pageOpenedList.splice(1);
             state.cachePage.length = 0;
+            state.openedSubmenuArr.length = 0;
             sessionStorage.pageOpenedList = JSON.stringify(state.pageOpenedList);
         },
         clearOtherTags (state, vm) {
@@ -133,9 +132,6 @@ const app = {
         switchLang (state, lang) {
             state.lang = lang;
             Vue.config.lang = lang;
-        },
-        clearOpenedSubmenu (state) {
-            state.openedSubmenuArr.length = 0;
         },
         setMessageCount (state, count) {
             state.messageCount = count;
