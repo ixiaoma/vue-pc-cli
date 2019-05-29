@@ -26,9 +26,7 @@ router.beforeEach((to, from, next) => {
         next(false);
     } else {
         if (!sessionStorage.getItem('user') && to.name !== 'login') { // 判断是否已经登录且前往的页面不是登录页
-            next({
-                name: 'login'
-            });
+            router.app.$store.commit('logout')
         } else if (sessionStorage.getItem('user') && to.name === 'login') { // 判断是否已经登录且前往的是登录页
             Util.title();
             next({
@@ -41,11 +39,7 @@ router.beforeEach((to, from, next) => {
 });
 
 router.afterEach((to) => {
-    if(to.name=="login"){
-        router.app.$store.commit('setOpenedList','destoryed')
-    }else{
-        Util.openNewPage(router.app, to.name, to.params, to.query);
-    }
+    Util.openNewPage(router.app, to.name, to.params, to.query);
     iView.LoadingBar.finish();
     window.scrollTo(0, 0);
 });
