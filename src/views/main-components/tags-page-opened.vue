@@ -81,7 +81,6 @@ export default {
                 }
             }
             this.$store.commit('removeTag', name);
-            this.$store.commit('closePage', name);
             pageOpenedList = this.$store.state.app.pageOpenedList;
             sessionStorage.pageOpenedList = JSON.stringify(pageOpenedList);
             if (this.currentPageName === name) {
