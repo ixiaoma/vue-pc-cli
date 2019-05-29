@@ -2,7 +2,7 @@ import axios from 'axios';
 import _API from './config'
 import Vue from 'vue'
 import {Message} from 'iview' 
-import {router} from '../router/index'
+import store from '../store/index'
 
 axios.defaults.timeout = 300000;
 if (process.env.NODE_ENV == 'development') {
@@ -43,16 +43,13 @@ axios.interceptors.request.use(config => {
 // http response 拦截器
 axios.interceptors.response.use(
     response => {
-        if (response.data.errCode == 2) {
-            router.push({
-                path: '/login',
-                query: {redirect: router.currentRoute.fullPath}// 从哪个页面跳转
-            });
-        }
         return response;
     },
     error => {
-        if (error.response) {//同一错误拦截
+        if(error.response.status == 403){
+            store.commit('logout')
+            Message.error({content:'权限过期，请重新登录',duration:5})
+        }else{
             Message.error(error.response.data.message)
         }
     }
