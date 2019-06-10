@@ -5,19 +5,14 @@ import {Message} from 'iview'
 import store from '../store/index'
 
 axios.defaults.timeout = 300000;
-if (process.env.NODE_ENV == 'development') {
-    axios.defaults.baseURL = 'http://10.100.50.27:26302/'
-    Vue.prototype.baseURL = 'http://10.100.50.27:26302/'//根路径
-    Vue.prototype.fileURL = 'http://file.ui-tech.cn/'//文件上传地址+文件下载地址
-}else if(process.env.NODE_ENV == 'production'){
-    axios.get('serverconfig.json').then(res=>{
-        if(res.data.baseUrl){
-            axios.defaults.baseURL = res.data.baseUrl
-            Vue.prototype.baseURL = res.data.baseUrl
-            Vue.prototype.fileURL = res.fileUrl
-        }
-    })
-}
+axios.defaults.baseURL = 'http://api.tele.giftree.com.cn/'
+Vue.prototype.baseURL = 'http://api.tele.giftree.com.cn/'
+Vue.prototype.fileURL = 'http://file.giftree.com.cn/'
+// if(process.env.NODE_ENV == 'production'){
+//     axios.defaults.baseURL = 'http://api.tele.giftree.com.cn/'
+//     Vue.prototype.baseURL = 'http://api.tele.giftree.com.cn/'
+//     Vue.prototype.fileURL = 'http://file.giftree.com.cn/'
+// }
 // http request 拦截器
 axios.interceptors.request.use(config => {   
     config.headers = {

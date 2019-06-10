@@ -1,5 +1,7 @@
 //登录
-let API_LOGIN =  "auth/login"
+let API_LOGIN =  "api/auth/v1/login"
+//登录验证码
+let API_LOGIN_CODE = "api/auth/v1/captcha"
 //退出登录
 let API_LOGIN_OUT = 'auth/logout'
 
@@ -65,6 +67,7 @@ let API_ROLE_MENU_DELETE = 'role/menu/delete'
 let API_ACCOUNT_DEPTTREE = 'dept/depttree';
 export default{
     API_LOGIN,
+    API_LOGIN_CODE,
     API_LOGIN_OUT,
     API_FIELD_LIST,
     API_FIELD_SAVE,

@@ -26,7 +26,9 @@ router.beforeEach((to, from, next) => {
         next(false);
     } else {
         if (!sessionStorage.getItem('user') && to.name !== 'login') { // 判断是否已经登录且前往的页面不是登录页
-            router.app.$store.commit('logout')
+            next({
+                name: 'login'
+            });
         } else if (sessionStorage.getItem('user') && to.name === 'login') { // 判断是否已经登录且前往的是登录页
             Util.title();
             next({
