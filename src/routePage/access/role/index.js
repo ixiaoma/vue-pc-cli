@@ -1,4 +1,5 @@
 export default {
+    title:'角色管理',
     name: 'role',
     data () {
         return {

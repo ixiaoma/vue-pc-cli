@@ -1,4 +1,5 @@
 export default {
+    title:'系统菜单',
     name: 'system-menus',
     data(){
         return {

@@ -1,3 +1,4 @@
+import store from '../store/index'
 let util = {
 
 };
@@ -42,14 +43,14 @@ util.getRouterObjByName = function (routers, name) {
     return null;
 };
 
-util.openNewPage = function (vm, name, argu, query) {
-    let pageOpenedList = vm.$store.state.app.pageOpenedList;
+util.openNewPage = function (name, argu, query) {
+    let pageOpenedList = store.state.app.pageOpenedList;
     let openedPageLen = pageOpenedList.length;
     let i = 0;
     let tagHasOpened = false;
     while (i < openedPageLen) {
         if (name === pageOpenedList[i].name) { // 页面已经打开
-            vm.$store.commit('pageOpenedList', {
+            store.commit('pageOpenedList', {
                 index: i,
                 argu: argu,
                 query: query
@@ -60,7 +61,7 @@ util.openNewPage = function (vm, name, argu, query) {
         i++;
     }
     if (!tagHasOpened) {
-        let tag = vm.$store.state.app.tagsList.filter((item) => {
+        let tag = store.state.app.tagsList.filter((item) => {
             if (item.children) {
                 return name === item.children[0].name;
             } else {
@@ -76,10 +77,10 @@ util.openNewPage = function (vm, name, argu, query) {
             if (query) {
                 tag.query = query;
             }
-            vm.$store.commit('increateTag', tag);
+            store.commit('increateTag', tag);
         }
     }
-    vm.$store.commit('setCurrentPageName', name);
+    store.commit('setCurrentPageName', name);
 };
 
 util.toDefaultPage = function (routers, name, route, next) {
@@ -102,10 +103,10 @@ util.toDefaultPage = function (routers, name, route, next) {
     }
 };
 
-util.fullscreenEvent = function (vm) {
-    vm.$store.commit('initCachepage');
+util.fullscreenEvent = function () {
+    store.commit('initCachepage');
     // 权限菜单过滤相关
-    vm.$store.commit('updateMenulist');
+    store.commit('updateMenulist');
     // 全屏相关
 };
 

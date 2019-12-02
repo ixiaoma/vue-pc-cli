@@ -10,7 +10,7 @@
                 :open-names="openedSubmenuArr"
                 :menu-list="menuList">
                 <div slot="top" class="logo-con">
-                     <span style="font-size: 18px;padding-left: 5px; display: inline-flex; color:white;" >话务系统</span>
+                     <span style="font-size: 18px;padding-left: 5px; display: inline-flex; color:#2d8cf0;" >充电柜系统</span>
                 </div>
             </shrinkable-menu>
         </div>
@@ -18,7 +18,7 @@
             <div class="main-header">
                 <div class="navicon-con">
                     <Button :style="{transform: 'rotateZ(' + (this.shrink ? '-90' : '0') + 'deg)'}" type="text" @click="toggleClick">
-                        <Icon type="navicon" size="32"></Icon>
+                        <Icon type="md-reorder" size='32'/>
                     </Button>
                 </div>
                 <div class="header-avator-con">

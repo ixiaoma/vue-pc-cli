@@ -1,24 +1,21 @@
+// import listData from '@/libs/addlist.json'
 export default {
     data () {
         return {
-            tableData: [],
-            tableColumns: [
-                {
-                    title: 'Name',
-                    key: 'name'
-                }
-            ],
-            total:100,
-            currentPage:1
+            fieldData:[],
+            openPage:'open0'
         }
     },
-    methods: {
-        changePage (pagesize) {//切换页码
-
-        },
-        selectRow(selection,row){//多选模式
-            // selection：已选项数据
-            // row：刚选择的项数据
-        }
+    created(){
+        let arr = []
+        listData.forEach(ele=>{
+            if(ele.field_type == 12){
+                ele.fieldList = []
+                arr.push(ele)
+            }else{
+                arr[arr.length-1].fieldList.push(ele)
+            }
+        })
+        this.fieldData = arr
     }
 }

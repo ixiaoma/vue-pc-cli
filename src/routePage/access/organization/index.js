@@ -3,6 +3,9 @@
 // import pageConfig from '@/components/PageConfig/page-config.vue'
 
 export default {
+  paarentTitle:'权限管理',
+  title:'组织结构',
+  name:'organization',
   components: {
     // pageConfig
   },

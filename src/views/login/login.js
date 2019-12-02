@@ -39,43 +39,47 @@ export default {
     },
     // 登录
     handleSubmit() {
-      let md5_password = md5(this.formItem.password);
-      let params = {
-        username: this.formItem.userName,
-        password: md5_password,
-        captcha: this.formItem.code,
-        token: this.formItem.token
-      }
-      if (!this.formItem.userName) {
-        this.$Message.error("请填写用户名称")
-        this.$refs.userName.focus()
-      } else if (!this.formItem.password) {
-        this.$Message.error("请填写密码")
-        this.$refs.pass.focus()
-      } else if (!this.formItem.code) {
-        this.$Message.error("请填写验证码")
-        this.$refs.code.focus()
-      } else {
-        this.loading2 = true
-        this.$post(this.GLOBAL.API_LOGIN, params).then(res => {
-          if (res.data.retCode == "200") {
-            if (res.data.data.access_token) {
-              sessionStorage.setItem('user', this.formItem.userName);
-              sessionStorage.setItem('userId', res.data.data.userId);
-              sessionStorage.setItem('newUser', res.data.data.firstLogin);
-              sessionStorage.setItem('cookieaccess_token', res.data.data.access_token);
-              sessionStorage.setItem('wwwpd', md5_password);
-              sessionStorage.setItem('switchUser', res.data.data.switchUser);
-              this.getUserInfo()              
-              // this.$store.commit('connect');             
-            }
-          } else {
-            this.$Message.error(res.data.message)
-            this.loading2 = false
-            this.getcodeimgurl();
-          }
-        })
-      }
+      sessionStorage.setItem('user', this.formItem.userName);
+      this.$router.push({
+        name: "home_index"
+      })
+      // let md5_password = md5(this.formItem.password);
+      // let params = {
+      //   username: this.formItem.userName,
+      //   password: md5_password,
+      //   captcha: this.formItem.code,
+      //   token: this.formItem.token
+      // }
+      // if (!this.formItem.userName) {
+      //   this.$Message.error("请填写用户名称")
+      //   this.$refs.userName.focus()
+      // } else if (!this.formItem.password) {
+      //   this.$Message.error("请填写密码")
+      //   this.$refs.pass.focus()
+      // } else if (!this.formItem.code) {
+      //   this.$Message.error("请填写验证码")
+      //   this.$refs.code.focus()
+      // } else {
+      //   this.loading2 = true
+      //   this.$post(this.GLOBAL.API_LOGIN, params).then(res => {
+      //     if (res.data.retCode == "200") {
+      //       if (res.data.data.access_token) {
+      //         sessionStorage.setItem('user', this.formItem.userName);
+      //         sessionStorage.setItem('userId', res.data.data.userId);
+      //         sessionStorage.setItem('newUser', res.data.data.firstLogin);
+      //         sessionStorage.setItem('cookieaccess_token', res.data.data.access_token);
+      //         sessionStorage.setItem('wwwpd', md5_password);
+      //         sessionStorage.setItem('switchUser', res.data.data.switchUser);
+      //         this.getUserInfo()              
+      //         // this.$store.commit('connect');             
+      //       }
+      //     } else {
+      //       this.$Message.error(res.data.message)
+      //       this.loading2 = false
+      //       this.getcodeimgurl();
+      //     }
+      //   })
+      // }
     },
     //忘记密码
     passwordrecovery() {
